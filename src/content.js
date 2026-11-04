@@ -37,7 +37,7 @@ export const profile = {
 };
 
 export const about = [
-  "Most recently, I was a cloud engineer at FinLocker, a SOC 2–audited fintech, where I worked across Azure infrastructure, security operations and data engineering. I also research AI for cybersecurity, building agents used in live competitions by students from 15 universities.",
+  "Most recently, I was a cloud engineer at FinLocker, a SOC 2–audited fintech, where I worked across Azure infrastructure, security operations and data engineering. I also worked on AI for cybersecurity at Kennesaw State and UMSL, building AI agents used in a live competition by students from 15 universities.",
   "I hold an M.S. in Cybersecurity from the University of Missouri–St. Louis and a B.S. in Chemistry from the University of Missouri. I'm looking for my next role in cloud, security or data engineering.",
 ];
 
@@ -66,40 +66,40 @@ export const projects = [
     links: [],
   },
   {
-    title: "SMS Spam Detection with BERT",
+    title: "SMS Spam Classification: TF-IDF vs. BERT",
     kind: "Cybersecurity capstone",
     year: "2025",
     summary:
-      "A four-person team project to filter spam text messages, comparing TF-IDF, Word2Vec and BERT approaches. I led business understanding, data understanding and data preparation, and built the entire BERT model: a pretrained BERT encoder turns each message into a vector, and a small trainable neural network classifies it. The BERT model reached 97.97% accuracy on 836 test messages, with 94% precision and 90% recall on spam, and wrongly flagged only 6 of 724 legitimate messages.",
-    stack: ["Python", "TensorFlow", "Keras", "BERT", "NLP", "CRISP-DM"],
+      "A four-person team project to catch spam text messages while rarely flagging legitimate ones. We compared TF-IDF baselines with classifiers trained on fixed BERT embeddings, using a deduplicated dataset and a stratified train, validation and test split. I led business understanding, data understanding and data preparation, and built the BERT model: a pretrained BERT encoder turns each message into a vector, and a small neural network classifies it. Chosen on validation F1, it reached 98.45% accuracy on 774 unique test messages, with 93.75% precision and recall on spam, and wrongly flagged only 6 of 678 legitimate messages.",
+    stack: ["Python", "TensorFlow", "Keras", "BERT", "TF-IDF", "scikit-learn", "CRISP-DM"],
     links: [
       { label: "Source code", url: "https://github.com/ElsieElsevier/llm-spam-text-biclassification" },
-      {
-        label: "Final report (PDF)",
-        url: "https://github.com/ElsieElsevier/llm-spam-text-biclassification/blob/main/final_project_report.pdf",
-      },
     ],
   },
   {
-    title: "Arrange.ly: Event Seating Optimizer",
-    kind: "Hackathon, {e}Hack",
-    year: "2024",
+    title: "Arrangely: Wedding Seating Planner",
+    kind: "Hackathon, 2nd place",
+    year: "2024, rebuilt 2026",
     summary:
-      "Built in 36 hours at {e}Hack 2024, hosted by SIUE at the T-REX technology center in downtown St. Louis. Our team built a seating planner for weddings and events, and I wrote its Python machine learning core: modules that turn guests' survey answers into text embeddings, build a graph of their relationships, group guests into tables with spectral clustering, score and compare the arrangements, and store the results.",
-    stack: ["Python", "Spectral clustering", "Text embeddings", "Graph analysis"],
+      "Our team built Arrangely in 36 hours at e{hack}2024, hosted by SIUE at the T-REX technology center in St. Louis, and placed 2nd; I wrote its Python machine learning core. In 2026 I rebuilt it as a single Flask app that runs entirely on your computer. Hosts describe guests in plain language, a local sentence-embedding model turns each description into a vector, and spectral clustering groups similar guests. It then fits the groups to tables, keeping couples together, honoring keep-apart requests and seat limits, and evening out table sizes, with the same input always giving the same plan. It comes with an API and automated tests.",
+    stack: ["Python", "Flask", "Sentence embeddings", "Spectral clustering", "scikit-learn", "pytest"],
     links: [
-      { label: "Source code", url: "https://github.com/ElsieElsevier/arrange.ly-spectral-clustering" },
+      { label: "Source code", url: "https://github.com/ElsieElsevier/arrange.ly-wedding-seating-optimizer" },
     ],
   },
   {
-    title: "Income Bracket Classifier in PyTorch",
+    title: "Income Classification with PyTorch",
     kind: "Machine learning",
     year: "2025",
     summary:
-      "A neural network that predicts income brackets from a dataset of 25,000+ records. Preprocessing, feature engineering and the model itself are built by hand in PyTorch to understand each step of the deep learning workflow.",
-    stack: ["Python", "PyTorch", "Jupyter"],
+      "A PyTorch neural network that predicts whether a person earns more than $50K a year from census data, trained on 32,561 rows and tested on 16,281. I built it as my first machine learning project, then came back to fix its bugs, including an early-stopping copy bug that kept the wrong weights, and to test which improvements actually helped. Averaged over 5 seeds, it reaches 86.16% accuracy and 0.916 ROC-AUC, tying logistic regression; gradient boosting scores highest at 87.24%. A feature study found that binning numeric features gave the biggest gain.",
+    stack: ["Python", "PyTorch", "scikit-learn", "pandas", "Jupyter"],
     links: [
       { label: "Source code", url: "https://github.com/ElsieElsevier/pytorch-income-classification" },
+      {
+        label: "Open in Colab",
+        url: "https://colab.research.google.com/github/ElsieElsevier/pytorch-income-classification/blob/main/IncomeBracketStoppage.ipynb",
+      },
     ],
   },
 ];
@@ -123,25 +123,34 @@ export const experience = [
     org: "FinLocker (Technical Operations)",
     dates: "June 2025 to April 2026",
     points: [
-      "Built Terraform infrastructure as code that replicated the full SaaS platform into a new Azure tenant, redeploying the complete dev environment in about a month.",
-      "Upgraded Kubernetes on dev and stage AKS clusters (~100 nodes each) in after-hours windows with no notable downtime, and maintained 15 to 30 CronJobs per environment running daily data loads.",
-      "Migrated data pipelines from Azure Synapse to Microsoft Fabric as the sole engineer, rebuilding a Synapse project in Fabric after platform limitations and putting multiple Fabric pipelines into production.",
-      "Right-sized Fabric compute through incremental load testing after smaller tiers throttled, handling a ~20K-record daily write, dedupe and retry batch and the 2 to 3x backlogs that follow an outage.",
-      "Developed PySpark ETL notebooks and incremental SQL MERGE workflows that load raw Parquet payloads into Silver and Gold tables in Azure Synapse, with current and history tracking.",
+      "Built Terraform infrastructure as code to replicate the SaaS platform into a new Azure tenant for a perpetual-license client offering, single-handedly redeploying the full dev infrastructure in about a month with Microsoft Copilot and the Microsoft MCP server.",
+      "Migrated live pipelines (~20K records a day) from Azure Synapse to Microsoft Fabric as the sole architect, configuring secure endpoints and rewriting Python staging writes as set-based SQL with staggered schedules, which halved Fabric capacity (F16 to F8) and saved ~$1,050 a month.",
+      "Hardened the platform with Private Endpoints on every connected resource, managed identities for new services, and secrets split from a few shared Key Vaults into 100+ scoped vaults.",
+      "Released to stage and prod (~2 a month) as 1 of 2 authorized engineers, opening new pods to traffic through Kubernetes ingress and egress YAML and the WAF.",
+      "Upgraded dev and stage AKS clusters (~100 nodes each) in after-hours change windows with no notable downtime, and migrated 50+ VMs from retired agents to Azure Monitor Agent.",
       "Contained a phishing compromise of 3 accounts, including the CEO's, within 1 hour with no data exposure, and investigated a Defender data-exfiltration alert through to a formal report.",
-      "Restructured secrets from a few shared Key Vaults into 100+ vaults scoped by service and environment, and closed public network access with Private Endpoints and managed identities.",
-      "Migrated 50+ VMs to Azure Monitor Agent to restore logging and security telemetry, and owned renewal of ~30 customer-facing TLS certificates end to end.",
-      "Supported a successful SOC 2 audit, and managed identity and devices for 40 to 50 employees across Entra ID, Intune and Conditional Access.",
+      "Supported 40 to 50 employees across Entra ID, Active Directory, Microsoft 365 and Barracuda VPN, imaging ~10 laptops and 2 Mac minis and handling onboarding and offboarding.",
+      "Enforced Intune compliance for ~50 devices and wrote remediation scripts that silently install and update software, rolling out Claude CLI to non-developers.",
+      "Automated a daily executive report with Logic Apps and SQL, replacing the CTO's 15-minute manual script.",
+      "Supported a successful SOC 2 audit, and drove an AI vendor project that documented 100+ repositories for the first time.",
     ],
   },
   {
-    role: "AI & Cybersecurity Researcher, ADAM Team",
-    org: "Kennesaw State University and University of Missouri–St. Louis",
-    dates: "May 2025 to April 2026",
+    role: "AI Security Engineer (Contractor)",
+    org: "Kennesaw State University",
+    dates: "January 2026 to April 2026",
     points: [
-      "Built a blue-team AI advisor (self-hosted Mistral LLM with Pinecone RAG) on AWS EKS for students from 15 universities facing professional red teamers; teams held out 3 to 7.8 hours of an 8-hour event.",
-      "Built the initial red-team agent (Nmap, Metasploit, Hydra) with guardrails that block hallucinated destructive commands like rm -rf, plus a real-time editor for reviewing agent commands.",
-      "Owned LLM selection and tool-use architecture on a 2-person team, and demoed the platform to Booz Allen Hamilton and DoD stakeholders, helping secure 4 more months of funding.",
+      "Deployed the ADAM blue-team AI advisor (self-hosted Mistral LLM, Pinecone RAG, Docker containers on AWS EKS) at CCDC, coaching students from 15 universities against professional red teamers; teams held out 3 to 7.8 hours of an 8-hour event.",
+    ],
+  },
+  {
+    role: "Journeyman Operations Research Analyst (AI Security Engineering)",
+    org: "University of Missouri–St. Louis",
+    dates: "May 2025 to December 2025",
+    points: [
+      "Wrote the blue-team agent's RAG pipeline in Python: split 5 security standards (CIS Controls, NIST and Ubuntu hardening guides; ~255K words) into 730 overlapping chunks, embedded them and indexed them in Pinecone.",
+      "Owned LLM selection and tool-use architecture for the red- and blue-team agents (Nmap, Metasploit, Hydra), and built guardrails that block hallucinated destructive commands like rm -rf, plus an editor to revise commands before they run.",
+      "Demoed the platform to Booz Allen Hamilton and DoD stakeholders, securing 4 more months of funding.",
     ],
   },
   {
@@ -156,19 +165,19 @@ export const experience = [
 
 export const education = [
   {
-    degree: "MS, Cybersecurity in Information Systems & Technology",
+    degree: "MS, Cybersecurity (Information Systems & Technology)",
     school: "University of Missouri–St. Louis",
-    year: "2023 to 2025",
+    year: "May 2025",
   },
   {
     degree: "BS, Chemistry",
-    school: "University of Missouri–Columbia",
-    year: "2013 to 2018",
+    school: "University of Missouri",
+    year: "December 2018",
   },
   {
-    degree: "Full-Stack Development Program",
+    degree: "Full-Stack Development Bootcamp",
     school: "LaunchCode",
-    year: "In progress",
+    year: "Expected April 2027",
   },
 ];
 
@@ -180,14 +189,13 @@ export const certifications = [
 export const skills = [
   {
     group: "Cloud",
-    items: ["Azure", "AKS", "Front Door", "Key Vault", "Azure Monitor", "Log Analytics", "Logic Apps", "AWS", "EKS"],
+    items: ["Azure", "AKS", "Azure VMs", "Front Door", "Key Vault", "Azure Monitor", "Log Analytics", "App Insights", "Logic Apps", "AWS", "EKS"],
   },
   {
     group: "Data",
     items: [
       "Azure Synapse",
       "Microsoft Fabric",
-      "Azure Data Factory",
       "PySpark",
       "SQL MERGE",
       "Parquet",
@@ -197,20 +205,23 @@ export const skills = [
   },
   {
     group: "Infrastructure",
-    items: ["Terraform", "Kubernetes", "Docker", "Ansible", "Azure DevOps", "Git", "CI/CD", "VMware", "VirtualBox"],
+    items: ["Terraform", "Kubernetes", "Docker", "Azure DevOps", "Git", "CI/CD", "Change management", "VMware", "VirtualBox"],
   },
   {
     group: "Security",
     items: [
       "Incident response",
-      "Defender for Endpoint",
+      "Defender for Endpoint & Cloud",
       "Entra ID",
       "Conditional Access",
+      "Managed identities",
       "RBAC",
+      "VNets",
       "NSGs",
       "Private Endpoints",
       "Barracuda WAF & Firewall",
       "TLS/PKI",
+      "DNS",
       "SOC 2",
       "Nmap",
       "Metasploit",
@@ -218,12 +229,12 @@ export const skills = [
   },
   {
     group: "IT operations",
-    items: ["Intune", "Microsoft 365", "Active Directory", "WSUS", "Barracuda VPN", "Jira"],
+    items: ["Intune", "Microsoft 365", "Active Directory", "WSUS", "Windows", "macOS", "Linux", "Barracuda VPN", "Jira"],
   },
-  { group: "Languages", items: ["Python", "PowerShell", "Bash", "SQL", "KQL", "JavaScript"] },
+  { group: "Languages", items: ["Python", "PowerShell", "Bash", "SQL", "KQL", "HCL", "JavaScript", "HTML/CSS"] },
   {
     group: "AI & ML",
-    items: ["LLMs", "RAG", "Pinecone", "PyTorch", "TensorFlow", "BERT", "Bayesian modeling"],
+    items: ["Microsoft Copilot", "MCP", "LLMs", "RAG", "Pinecone", "PyTorch", "TensorFlow", "BERT", "Bayesian modeling"],
   },
 ];
 
