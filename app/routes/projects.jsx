@@ -30,7 +30,7 @@ function ProjectCard({ p }) {
         {p.links.length > 0 && (
           <div className="btn-row" style={{ marginTop: 4 }}>
             {p.links.map((l) => (
-              <Btn key={l.url} href={l.url} variant={l.primary ? "dark" : undefined}>
+              <Btn key={l.url} href={l.url} variant={l.primary ? "dark" : undefined} newTab={l.newTab}>
                 {l.label === "GitHub" ? Icon.github() : Icon.external()}
                 {l.label}
               </Btn>

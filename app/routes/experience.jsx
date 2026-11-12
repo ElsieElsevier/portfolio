@@ -75,7 +75,7 @@ export default function Experience() {
               </li>
             ))}
           </ol>
-          <Btn href={profile.resumeUrl} variant="blue">
+          <Btn href={profile.resumeUrl} variant="blue" newTab>
             Download resume
           </Btn>
         </aside>

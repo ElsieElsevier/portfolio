@@ -29,6 +29,30 @@
   --gray: #d2cfc5;   --gray-shade: #b7b3a8;   --gray-ink: #24231f;   --gray-text: #3e3c37;   --gray-tint: #e6e2d8;
   --dark: #24231f;   --dark-shade: #000;      --dark-ink: #f6f3eb;
 
+  /* Details */
+  --panel-2: #f6f3eb;      /* side panels */
+  --panel-edge: #e6e1d5;
+  --divider: #c9c4b6;
+  --hover-border: #9c978a;
+  --switch-border: #e4dfd3;
+  --dashed: #cfc9ba;
+  --live-text: #1f6a31;
+  --live-ring: #c9ebce;
+  --blue-hover: #56abee;
+  --red-strong: #9e2a22;
+  --yellow-strong: #7a4e00;
+  --blue-strong: #155a9e;
+  --shadow: 40, 38, 34;    /* shadow color as r, g, b */
+
+  /* Dark keys (featured project, contact block) */
+  --dark-border: #24231f;
+  --dark-2: #3a3934;
+  --dark-3: #2f2e29;
+  --dark-edge: #111110;
+  --on-dark-2: #ddd8cb;
+  --on-dark-3: #c9c4b6;
+  --arrow: #8c877b;
+
   /* Type */
   --font-body: "Inter", system-ui, sans-serif;
   --font-head: "Space Grotesk", "Inter", system-ui, sans-serif;
@@ -41,6 +65,52 @@
   --radius-xs: 9px;
   --page-width: 1040px;
   --gap: 18px;
+}
+
+/* ── Dark mode: charcoal case, graphite keys, same rainbow accents ── */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #181715;
+  --key: #252420;
+  --key-edge: #121110;
+  --well: #2f2d29;
+  --well-edge: #1a1916;
+  --panel: #201f1c;
+  --rule: #38362f;
+  --rule-soft: #302e29;
+
+  --ink: #f2eee4;
+  --ink-2: #dcd7ca;
+  --muted: #b5afa1;
+  --faint: #a29c8f;
+
+  --blue-text: #74bdf6;   --blue-tint: #1c3246;
+  --green-text: #74d283;  --green-tint: #1d3822;
+  --red-text: #ff8f85;    --red-tint: #43211e;
+  --yellow-text: #f6c453; --yellow-tint: #3d310f;
+  --purple-text: #c7a2f2; --purple-tint: #312447;
+  --gray: #4a4741; --gray-shade: #2f2d29; --gray-ink: #f2eee4; --gray-text: #dcd7ca; --gray-tint: #34322c;
+  --dark: #0f0e0d; --dark-shade: #000; --dark-ink: #f2eee4;
+
+  --panel-2: #1f1e1b;
+  --panel-edge: #141311;
+  --divider: #4a4741;
+  --hover-border: #6b675e;
+  --switch-border: #38362f;
+  --dashed: #4a4741;
+  --live-text: #8fe09b;
+  --live-ring: #2a5a31;
+  --blue-hover: #5aaef0;
+  --red-strong: #ffa49c;
+  --yellow-strong: #f7cd6a;
+  --blue-strong: #8ccaf8;
+  --shadow: 0, 0, 0;
+
+  --dark-border: #38362f;
+  --dark-2: #2c2a26;
+  --dark-3: #22211d;
+  --dark-edge: #070707;
 }
 
 /* Each keycap color as a reusable set: add class "c-blue" etc. to an element

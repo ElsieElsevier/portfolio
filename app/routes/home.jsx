@@ -12,7 +12,7 @@ import {
   skills,
 } from "../content.js";
 import { useTick } from "../components/settings.jsx";
-import { Btn, Dots, Footer, Icon, OpenLink, Rainbow, SettingsSwitch, pageMeta } from "../components/ui.jsx";
+import { Btn, Dots, EmailButton, Footer, Icon, OpenLink, Rainbow, SettingsSwitch, pageMeta } from "../components/ui.jsx";
 
 export const meta = () => pageMeta({ path: "/" });
 
@@ -37,8 +37,38 @@ function TileHead({ id, right }) {
   );
 }
 
-function Profile() {
+// A quick-glance stat that links to a page on this site or another website.
+function StatLink({ stat: s }) {
   const tick = useTick();
+  const body = (
+    <>
+      <span className="stat__text">
+        <span className="stat__label">{s.label}</span>
+        <span className="stat__detail">{s.detail}</span>
+      </span>
+      <span className="stat__value">{s.value}</span>
+    </>
+  );
+  const props = {
+    className: `stat c-${s.color}`,
+    ...tick,
+    ...(s.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {}),
+  };
+  if (s.to && !s.newTab) {
+    return (
+      <Link to={s.to} {...props}>
+        {body}
+      </Link>
+    );
+  }
+  return (
+    <a href={s.to || s.url} {...props}>
+      {body}
+    </a>
+  );
+}
+
+function Profile() {
   return (
     <section className="profile key-card key-card--lg c-green" aria-labelledby="profile-name">
       <div className="profile__main">
@@ -62,30 +92,26 @@ function Profile() {
           </p>
           <p className="profile__summary">{profile.summary}</p>
           <div className="profile__links">
-            <Btn href={profile.resumeUrl} variant="blue">
+            <Btn href={profile.resumeUrl} variant="blue" newTab>
               {Icon.download()}
               Resume
             </Btn>
             {profile.links.map((l) => (
-              <Btn key={l.label} href={l.url}>
+              <Btn key={l.label} href={l.url} newTab>
                 {l.label}
               </Btn>
             ))}
-            <Btn href={`mailto:${profile.email}`}>Email</Btn>
+            <EmailButton />
           </div>
         </div>
       </div>
-      <dl className="stats">
+      <ul className="stats" aria-label="Quick facts">
         {profile.stats.map((s) => (
-          <div key={s.label} className={`stat c-${s.color}`} {...tick}>
-            <dt className="stat__text">
-              <span className="stat__label">{s.label}</span>
-              <span className="stat__detail">{s.detail}</span>
-            </dt>
-            <dd className="stat__value">{s.value}</dd>
-          </div>
+          <li key={s.label}>
+            <StatLink stat={s} />
+          </li>
         ))}
-      </dl>
+      </ul>
     </section>
   );
 }
@@ -164,7 +190,6 @@ function LabTile() {
 }
 
 function SkillsTile() {
-  const tick = useTick();
   return (
     <article className="tile tile--skills key-card c-purple">
       <TileHead id="skills" />
@@ -173,7 +198,7 @@ function SkillsTile() {
           .filter((g) => !g.hideOnHub)
           .slice(0, 8)
           .map((g) => (
-            <div key={g.group} className={`skill-panel c-${g.color}`} {...tick}>
+            <div key={g.group} className={`skill-panel c-${g.color}`}>
               <h3 className="eyebrow">
                 <span className="swatch" aria-hidden="true" />
                 {g.group}

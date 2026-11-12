@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { appliedResearch, paper } from "../content.js";
-import { useSettings } from "../components/settings.jsx";
 import { Btn, Chips, Flow, Footer, Icon, Metric, PageHead, Pager, TopBar, pageMeta } from "../components/ui.jsx";
 
 export const meta = () =>
@@ -11,10 +10,8 @@ export const meta = () =>
   });
 
 function CopyCitation() {
-  const { tick } = useSettings();
   const [copied, setCopied] = useState(false);
   function copy() {
-    tick();
     const done = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
@@ -26,7 +23,7 @@ function CopyCitation() {
     }
   }
   return (
-    <button type="button" className="btn" onMouseEnter={tick} onClick={copy}>
+    <button type="button" className="btn" onClick={copy}>
       {copied ? Icon.check() : Icon.copy()}
       <span aria-live="polite">{copied ? "Copied" : "Copy citation"}</span>
     </button>

@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
-// Site-wide settings: hover sound on/off (remembered per visitor).
-// Dark mode is planned; the theme button is in place but not active yet.
+// Site-wide settings, remembered per visitor:
+// - theme: "light" (default) or "dark"
+// - sound: the key click when hovering links
 
-const SettingsContext = createContext({ soundOn: true, toggleSound() {}, tick() {} });
+const SettingsContext = createContext({ soundOn: true, toggleSound() {}, tick() {}, theme: "light", toggleTheme() {} });
 
 const VOLUME = 1; // overall loudness of the key click: 0.5 is half as loud
 
@@ -17,6 +18,7 @@ function readSoundPref() {
 
 export function SettingsProvider({ children }) {
   const [soundOn, setSoundOn] = useState(true);
+  const [theme, setTheme] = useState("light");
   const audioRef = useRef(null);
   const soundRef = useRef(true);
 
@@ -25,6 +27,21 @@ export function SettingsProvider({ children }) {
     const on = readSoundPref();
     soundRef.current = on;
     setSoundOn(on);
+    // The theme was already applied before the page painted (see root.jsx).
+    setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((current) => {
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {
+        /* storage unavailable */
+      }
+      return next;
+    });
   }, []);
 
   // Browsers only allow sound after the visitor clicks or presses a key,
@@ -63,7 +80,7 @@ export function SettingsProvider({ children }) {
     }
   }, []);
 
-  return <SettingsContext.Provider value={{ soundOn, toggleSound, tick }}>{children}</SettingsContext.Provider>;
+  return <SettingsContext.Provider value={{ soundOn, toggleSound, tick, theme, toggleTheme }}>{children}</SettingsContext.Provider>;
 }
 
 export function useSettings() {
