@@ -1,5 +1,5 @@
 import { education, profile } from "../content.js";
-import { Btn, Footer, Icon, PageHead, Pager, TopBar, pageMeta } from "../components/ui.jsx";
+import { Btn, EmailButton, Footer, Icon, PageHead, Pager, TopBar, pageMeta } from "../components/ui.jsx";
 
 export const meta = () =>
   pageMeta({
@@ -54,14 +54,18 @@ export default function Education() {
       <section className="cta key-card key-card--lg key-card--dark" aria-labelledby="cta-title">
         <div>
           <h2 id="cta-title">That's the tour. Let's talk.</h2>
-          <p>I'm open to cloud, security and data engineering roles.</p>
+          <p>
+            I'm open to cloud, security and data engineering roles. Reach me at <b className="cta__email">{profile.email}</b>.
+          </p>
         </div>
         <div className="btn-row">
-          <Btn href={`mailto:${profile.email}`} variant="blue">
-            Email me
+          <EmailButton variant="blue" label="Copy my email" />
+          <Btn href={linkedin.url} newTab>
+            LinkedIn
           </Btn>
-          <Btn href={linkedin.url}>LinkedIn</Btn>
-          <Btn href={profile.resumeUrl}>Resume</Btn>
+          <Btn href={profile.resumeUrl} newTab>
+            Resume
+          </Btn>
         </div>
       </section>
 

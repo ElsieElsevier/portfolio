@@ -26,12 +26,14 @@ export const profile = {
     { label: "GitHub", url: "https://github.com/ElsieElsevier" },
     { label: "LinkedIn", url: "https://www.linkedin.com/in/jin-bai/" },
   ],
-  // Quick-glance stats under the portrait.
+  // Quick-glance stats under the portrait. Each one is a link:
+  // `to` is a page on this site, `url` is another website,
+  // and `newTab: true` opens it in a new browser tab.
   stats: [
-    { value: "1 yr", label: "Cloud engineering", detail: "Production Azure", color: "blue" },
-    { value: "2", label: "Certifications", detail: "Security+ · AWS", color: "green" },
-    { value: "2nd", label: "Hackathon place", detail: "e{hack} 2024", color: "yellow" },
-    { value: "1", label: "Published paper", detail: "CogSci 2025", color: "red" },
+    { value: "1 yr", label: "Cloud engineering", detail: "Production Azure", color: "blue", to: "/experience#finlocker" },
+    { value: "2", label: "Certifications", detail: "Security+ · AWS", color: "green", to: "/certifications", newTab: true },
+    { value: "2nd", label: "Hackathon place", detail: "e{hack} 2025", color: "yellow", url: "https://devpost.com/software/arrange-ly", newTab: true },
+    { value: "1", label: "Published paper", detail: "CogSci 2025", color: "red", to: "/research" },
   ],
 };
 
@@ -200,19 +202,22 @@ export const projects = [
     hubResult: "2nd place",
     hub: true,
     kind: "Hackathon",
-    year: "2024, rebuilt 2026",
+    year: "2025, rebuilt 2026",
     color: "yellow",
     summary:
       "Hosts describe guests in plain language; a local sentence-embedding model turns each description into a vector, and spectral clustering groups similar guests. It then fits groups to tables, keeping couples together, honoring keep-apart requests and seat limits, and evening out table sizes.",
-    role: "Built in 36 hours at e{hack}2024 (SIUE, T-REX in St. Louis), where I wrote the Python machine learning core. In 2026 I rebuilt it as a single Flask app with an API and automated tests.",
+    role: "Built in 36 hours at e{hack}2025 (SIUE, T-REX in St. Louis), where I wrote the Python machine learning core. In 2026 I rebuilt it as a single Flask app with an API and automated tests.",
     results: [
-      { value: "2nd", label: "place at e{hack}2024" },
+      { value: "2nd", label: "place at e{hack}2025" },
       { value: "36 hrs", label: "original build" },
       { value: "100%", label: "runs locally, nothing sent out" },
       { value: "Same", label: "input always gives the same plan" },
     ],
     stack: ["Python", "Flask", "Sentence embeddings", "Spectral clustering", "scikit-learn", "pytest"],
-    links: [{ label: "GitHub", url: "https://github.com/ElsieElsevier/arrange.ly-wedding-seating-optimizer", primary: true }],
+    links: [
+      { label: "GitHub", url: "https://github.com/ElsieElsevier/arrange.ly-wedding-seating-optimizer", primary: true },
+      { label: "Devpost", url: "https://devpost.com/software/arrange-ly", newTab: true },
+    ],
   },
   {
     id: "income",

@@ -1,5 +1,4 @@
 import { familiar, skills } from "../content.js";
-import { useTick } from "../components/settings.jsx";
 import { Footer, PageHead, Pager, TopBar, pageMeta } from "../components/ui.jsx";
 
 export const meta = () =>
@@ -10,7 +9,6 @@ export const meta = () =>
   });
 
 export default function Skills() {
-  const tick = useTick();
   return (
     <main id="main" className="page">
       <TopBar crumb="skills" />
@@ -22,7 +20,7 @@ export default function Skills() {
 
       <div className="skill-cards">
         {skills.map((g) => (
-          <article key={g.group} className={`skill-card key-card lift c-${g.color}`} {...tick}>
+          <article key={g.group} className={`skill-card key-card lift c-${g.color}`}>
             <div className="skill-card__head">
               <h2>
                 <span className="swatch" aria-hidden="true" />

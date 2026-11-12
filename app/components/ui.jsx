@@ -1,7 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router";
 import { useSettings, useTick } from "./settings.jsx";
-import { sections, site } from "../content.js";
+import { profile, sections, site } from "../content.js";
 
 // ── Icons (inline SVG, decorative) ───────────────────────────
 const stroke = {
@@ -55,6 +55,18 @@ export const Icon = {
   check: (s = 15) => (
     <svg width={s} height={s} viewBox="0 0 24 24" {...stroke} strokeWidth={2.4}>
       <path d="M20 6 9 17l-5-5" />
+    </svg>
+  ),
+  sun: (s = 15) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" {...stroke} strokeWidth={2}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  ),
+  mail: (s = 14) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" {...stroke} strokeWidth={2}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
     </svg>
   ),
   moon: (s = 15) => (
@@ -134,9 +146,8 @@ export function Chips({ items, color, hover = false, dark = false, label = "Tool
 }
 
 export function Metric({ value, label, color }) {
-  const tick = useTick();
   return (
-    <div className={`metric c-${color}`} {...tick}>
+    <div className={`metric c-${color}`}>
       <dt className="metric__label">{label}</dt>
       <dd className="metric__value">{value}</dd>
     </div>
@@ -144,7 +155,8 @@ export function Metric({ value, label, color }) {
 }
 
 // A link that is internal (client-side) or external, with the hover click.
-export function Btn({ to, href, variant, children, className = "", ...rest }) {
+// `newTab` opens the link in a new browser tab.
+export function Btn({ to, href, variant, children, className = "", newTab = false, ...rest }) {
   const tick = useTick();
   const cls = ["btn", variant && `btn--${variant}`, className].filter(Boolean).join(" ");
   if (to) {
@@ -155,7 +167,7 @@ export function Btn({ to, href, variant, children, className = "", ...rest }) {
     );
   }
   return (
-    <a href={href} className={cls} {...tick} {...rest}>
+    <a href={href} className={cls} {...tick} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})} {...rest}>
       {children}
     </a>
   );
@@ -170,22 +182,41 @@ export function OpenLink({ to, title }) {
   );
 }
 
+// Copies the email address (many visitors have no mail app set up,
+// so a mailto: link would silently do nothing for them).
+export function EmailButton({ variant, label = "Email" }) {
+  const { tick } = useSettings();
+  const [copied, setCopied] = useState(false);
+  function copy() {
+    const done = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    };
+    try {
+      navigator.clipboard.writeText(profile.email).then(done, done);
+    } catch (e) {
+      done();
+    }
+  }
+  const cls = ["btn", variant && `btn--${variant}`].filter(Boolean).join(" ");
+  return (
+    <button type="button" className={cls} onMouseEnter={tick} onClick={copy} title={`Copy ${profile.email}`}>
+      {copied ? Icon.check(14) : Icon.mail()}
+      <span aria-live="polite">{copied ? "Email copied" : label}</span>
+    </button>
+  );
+}
+
 // Theme + sound switch
 export function SettingsSwitch() {
-  const { soundOn, toggleSound, tick } = useSettings();
+  const { soundOn, toggleSound, theme, toggleTheme } = useSettings();
+  const dark = theme === "dark";
   return (
     <div className="switch" role="group" aria-label="Display settings">
-      <button
-        type="button"
-        aria-label="Dark mode (coming soon)"
-        title="Dark mode is coming soon"
-        aria-disabled="true"
-        onMouseEnter={tick}
-        onClick={tick}
-      >
-        {Icon.moon()}
+      <button type="button" aria-label="Dark mode" aria-pressed={dark} onClick={toggleTheme}>
+        {dark ? Icon.sun() : Icon.moon()}
       </button>
-      <button type="button" aria-label="Sound effects" aria-pressed={soundOn} onMouseEnter={tick} onClick={toggleSound}>
+      <button type="button" aria-label="Sound effects" aria-pressed={soundOn} onClick={toggleSound}>
         {soundOn ? Icon.soundOn() : Icon.soundOff()}
       </button>
     </div>
@@ -281,7 +312,6 @@ export function pageMeta({ title, description, path }) {
 
 // Steps joined by arrows, e.g. a data pipeline
 export function Flow({ steps, dark }) {
-  const tick = useTick();
   return (
     <div className={`flow ${dark ? "flow--dark" : "flow--light"}`}>
       {steps.map((s, i) => (
@@ -291,7 +321,7 @@ export function Flow({ steps, dark }) {
               →
             </span>
           )}
-          <div className="flow__step" {...tick}>
+          <div className="flow__step">
             <b>{s.label}</b>
             <span>{s.detail}</span>
           </div>

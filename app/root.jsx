@@ -20,10 +20,14 @@ export const links = () => [
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 ];
 
+// Applies the visitor's saved theme before the page paints, so there's no flash.
+const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`;
+
 export function Layout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ece8de" />
