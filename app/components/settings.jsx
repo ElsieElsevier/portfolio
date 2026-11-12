@@ -6,7 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 
 const SettingsContext = createContext({ soundOn: true, toggleSound() {}, tick() {}, theme: "light", toggleTheme() {} });
 
-const VOLUME = 1; // overall loudness of the key click: 0.5 is half as loud
+const VOLUME = .5; // overall loudness of the key click: 0.5 is half as loud
 
 function readSoundPref() {
   try {
@@ -101,43 +101,29 @@ function getAudio(ref) {
   return ref.current;
 }
 
-// A short, soft keyboard "clack": a filtered noise burst plus a low thock.
+// Plays public/sounds/click.mp3, loading it once and reusing it.
+let clickBuffer = null;
+
+async function loadClick(ac) {
+  if (clickBuffer) return clickBuffer;
+  const res = await fetch("/sounds/click.mp3");
+  clickBuffer = await ac.decodeAudioData(await res.arrayBuffer());
+  return clickBuffer;
+}
+
 function playClick(ref) {
-  try {
-    const ac = getAudio(ref);
-    if (!ac || ac.state !== "running") return;
-    const t = ac.currentTime;
-
-    const len = Math.floor(ac.sampleRate * 0.025);
-    const buf = ac.createBuffer(1, len, ac.sampleRate);
-    const data = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 5);
-    const noise = ac.createBufferSource();
-    noise.buffer = buf;
-    const band = ac.createBiquadFilter();
-    band.type = "bandpass";
-    band.frequency.value = 2400 + Math.random() * 500;
-    band.Q.value = 1.4;
-    const noiseGain = ac.createGain();
-    noiseGain.gain.value = 0.1 * VOLUME;
-    noise.connect(band);
-    band.connect(noiseGain);
-    noiseGain.connect(ac.destination);
-
-    const osc = ac.createOscillator();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(190, t);
-    osc.frequency.exponentialRampToValueAtTime(90, t + 0.05);
-    const oscGain = ac.createGain();
-    oscGain.gain.setValueAtTime(0.07 * VOLUME, t);
-    oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
-    osc.connect(oscGain);
-    oscGain.connect(ac.destination);
-
-    noise.start(t);
-    osc.start(t);
-    osc.stop(t + 0.07);
-  } catch (e) {
-    /* sound is optional */
-  }
+  const ac = getAudio(ref);
+  if (!ac || ac.state !== "running") return;
+  loadClick(ac)
+    .then((buffer) => {
+      const src = ac.createBufferSource();
+      src.buffer = buffer;
+      src.playbackRate.value = 0.95 + Math.random() * 0.1; // tiny pitch variation
+      const gain = ac.createGain();
+      gain.gain.value = 0.4 * VOLUME;
+      src.connect(gain);
+      gain.connect(ac.destination);
+      src.start();
+    })
+    .catch(() => {});
 }
