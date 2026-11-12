@@ -1,0 +1,53 @@
+/* ─────────────────────────────────────────────────────────────
+   Design tokens: change a value here and it changes everywhere.
+   Theme: "Keycap" — vintage-white case, off-white keys, rainbow accents.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces */
+  --bg: #ece8de;          /* vintage-white case */
+  --key: #fffefa;         /* off-white keycap */
+  --key-edge: #eeeae1;    /* pressed-key bottom edge */
+  --well: #f3f0e8;        /* inset chips and stat wells */
+  --well-edge: #dfdacd;
+  --panel: #f6f3ec;       /* quiet inner panels */
+  --rule: #ddd8cb;        /* borders */
+  --rule-soft: #eeeae1;   /* dividers inside keys */
+
+  /* Text */
+  --ink: #24231f;
+  --ink-2: #3e3c37;
+  --muted: #57554f;
+  --faint: #6a675f;
+
+  /* Keycap colors: fill, shade (key edge), ink on fill, text-safe tone */
+  --blue: #3a9bea;   --blue-shade: #2b7fc4;   --blue-ink: #10161c;   --blue-text: #1a6fc4;   --blue-tint: #dcebfa;
+  --green: #43b653;  --green-shade: #2f9440;  --green-ink: #10160f;  --green-text: #287a39;  --green-tint: #e6f4e8;
+  --red: #e8564b;    --red-shade: #c53f35;    --red-ink: #1a0c0a;    --red-text: #c8372d;    --red-tint: #fce3e0;
+  --yellow: #f5b82e; --yellow-shade: #d99b14; --yellow-ink: #24231f; --yellow-text: #9a6200; --yellow-tint: #fdefc8;
+  --purple: #9b6bd3; --purple-shade: #7e52b8; --purple-ink: #140b1d; --purple-text: #7a45b5; --purple-tint: #ece2f8;
+  --gray: #d2cfc5;   --gray-shade: #b7b3a8;   --gray-ink: #24231f;   --gray-text: #3e3c37;   --gray-tint: #e6e2d8;
+  --dark: #24231f;   --dark-shade: #000;      --dark-ink: #f6f3eb;
+
+  /* Type */
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-head: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-pixel: "Jersey 10", "Space Grotesk", monospace;
+
+  /* Shape */
+  --radius-lg: 20px;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 9px;
+  --page-width: 1040px;
+  --gap: 18px;
+}
+
+/* Each keycap color as a reusable set: add class "c-blue" etc. to an element
+   and use var(--c), var(--c-shade), var(--c-ink), var(--c-text), var(--c-tint). */
+.c-blue   { --c: var(--blue);   --c-shade: var(--blue-shade);   --c-ink: var(--blue-ink);   --c-text: var(--blue-text);   --c-tint: var(--blue-tint); }
+.c-green  { --c: var(--green);  --c-shade: var(--green-shade);  --c-ink: var(--green-ink);  --c-text: var(--green-text);  --c-tint: var(--green-tint); }
+.c-red    { --c: var(--red);    --c-shade: var(--red-shade);    --c-ink: var(--red-ink);    --c-text: var(--red-text);    --c-tint: var(--red-tint); }
+.c-yellow { --c: var(--yellow); --c-shade: var(--yellow-shade); --c-ink: var(--yellow-ink); --c-text: var(--yellow-text); --c-tint: var(--yellow-tint); }
+.c-purple { --c: var(--purple); --c-shade: var(--purple-shade); --c-ink: var(--purple-ink); --c-text: var(--purple-text); --c-tint: var(--purple-tint); }
+.c-gray   { --c: var(--gray);   --c-shade: var(--gray-shade);   --c-ink: var(--gray-ink);   --c-text: var(--gray-text);   --c-tint: var(--gray-tint); }
