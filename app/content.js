@@ -31,7 +31,7 @@ export const profile = {
   // and `newTab: true` opens it in a new browser tab.
   stats: [
     { value: "1 yr", label: "Cloud engineering", detail: "Production Azure", color: "blue", to: "/experience#finlocker" },
-    { value: "2", label: "Certifications", detail: "Security+ · AWS", color: "green", to: "/certifications", newTab: true },
+    { value: "2", label: "Certifications", detail: "Security+ · AWS", color: "green", to: "/certifications" },
     { value: "2nd", label: "Hackathon place", detail: "e{hack} 2025", color: "yellow", url: "https://devpost.com/software/arrange-ly", newTab: true },
     { value: "1", label: "Published paper", detail: "CogSci 2025", color: "red", to: "/research" },
   ],
