@@ -47,14 +47,16 @@ jobs:
       # Hashed files in assets/ never change, so browsers can cache them for a year.
       - name: Upload assets
         run: >
-          aws s3 sync dist/assets "s3://$S3_BUCKET/assets" --delete
+          aws s3 sync build/client/assets "s3://$S3_BUCKET/assets" --delete
           --cache-control "public, max-age=31536000, immutable"
 
-      # Everything else (index.html, resume.pdf, images) is checked for updates on each visit.
+      # Everything else (each page's index.html, resume.pdf, images) is checked
+      # for updates on each visit.
       - name: Upload pages and files
         run: >
-          aws s3 sync dist "s3://$S3_BUCKET" --delete
+          aws s3 sync build/client "s3://$S3_BUCKET" --delete
           --exclude "assets/*"
+          --exclude "__spa-fallback.html"
           --cache-control "no-cache"
 
       - name: Invalidate CloudFront cache
